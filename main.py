@@ -45,24 +45,24 @@ def generate_cactus(messages, tools):
         for t in tools
     ]
 
-    raw_str = cactus_complete(
-        model,
-        [
-            {
-                "role": "system",
-                "content": "You are a helpful assistant that can use tools.",
-            }
-        ]
-        + messages,
-        tools=cactus_tools,
-        force_tools=True,
-        max_tokens=256,
-        stop_sequences=["<|im_end|>", "<end_of_turn>"],
-    )
-
     try:
+        raw_str = cactus_complete(
+            model,
+            [
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant that can use tools.",
+                }
+            ]
+            + messages,
+            tools=cactus_tools,
+            force_tools=True,
+            max_tokens=256,
+            stop_sequences=["<|im_end|>", "<end_of_turn>"],
+        )
+
         raw = json.loads(raw_str)
-    except json.JSONDecodeError:
+    except Exception:
         return {
             "function_calls": [],
             "total_time_ms": 0,
